@@ -1,3 +1,5 @@
+local jmp = require("src.lib.pathfinding.jmp")
+
 local grid = {}
 
 local gridDebugFlag = true
@@ -40,6 +42,12 @@ local isWalkable = function(self, gridX, gridY)
     end
 end
 
+local getPath = function(self, startX, startY, mouseX, mouseY)
+    self.path:calculateMap(startX, startY, mouseX, mouseY)
+    -- return path.points
+    self:setPoints(self.path.points, true)
+end
+
 local setPoints = function(self, points, success)
     self.points = points
     if success then
@@ -68,6 +76,15 @@ local draw = function(self)
     for i = 1, #self.points do
         love.graphics.rectangle('fill', (self.points[i][1] - 1) * self.cellSize, (self.points[i][2] - 1) * self.cellSize, self.cellDrawSize, self.cellDrawSize)
     end
+    love.graphics.setColor(255, 255, 255, 255)
+    for i = 1, #self.path.points - 1 do
+        love.graphics.line(
+            self.path.points[i][1] * self.cellSize - self.cellSize / 2,
+            self.path.points[i][2] * self.cellSize - self.cellSize / 2,
+            self.path.points[i + 1][1] * self.cellSize - self.cellSize / 2,
+            self.path.points[i + 1][2] * self.cellSize - self.cellSize / 2
+        )
+    end
 end
 
 grid.create = function(xSize, ySize)
@@ -87,11 +104,14 @@ grid.create = function(xSize, ySize)
     _populateGrid(inst)
 
     inst.setPoints = setPoints
+    inst.getPath = getPath
 
     inst.worldSpaceToGrid = worldSpaceToGrid
     inst.isWalkable = isWalkable
     inst.update = update
     inst.draw = draw
+
+    inst.path = jmp.create(inst)
 
     return inst
 end
