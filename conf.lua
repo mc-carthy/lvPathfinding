@@ -1,7 +1,7 @@
 function love.conf(t)
-    t.window.width = 800
-    t.window.height = 600
-    t.window.title = 'LÖVE Boilerplate'
+    t.window.width = 1000
+    t.window.height = 800
+    t.window.title = 'LÖVE Pathfinding'
     t.window.icon = nil
 
     t.modules.audio = true
