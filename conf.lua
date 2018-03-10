@@ -1,6 +1,6 @@
 function love.conf(t)
-    t.window.width = 1000
-    t.window.height = 800
+    t.window.width = 1200
+    t.window.height = 700
     t.window.title = 'LÖVE Pathfinding'
     t.window.icon = nil
 

@@ -45,6 +45,6 @@ function love.keypressed(key)
         love.event.quit()
     end
     if key == 'space' then
-        startX, startY = mouseX, mouseY
+        startX, startY = mouseY, mouseX
     end
 end
