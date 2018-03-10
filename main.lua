@@ -1,6 +1,6 @@
 local Grid = require("src.grid")
 local bresenham = require("src.lib.los.bresenham")
-local jsp = require("src.lib.pathfinding.jsp")
+local jmp = require("src.lib.pathfinding.jmp")
 
 local grid
 
@@ -10,7 +10,7 @@ local startX, startY = 1, 1
 
 function love.load()
     grid = Grid.create()
-    path = jsp.create(grid)
+    path = jmp.create(grid)
 end
 
 function love.update(dt)
@@ -19,8 +19,7 @@ function love.update(dt)
         -- local line, success = bresenham.line(startX, startY, mouseX, mouseY, function(x, y)
         --     return grid:isWalkable(x, y)
         -- end)
-        -- TODO: Figure out why x & y are reversed
-        path:calculateMap(startX, startY, mouseY, mouseX)
+        path:calculateMap(startX, startY, mouseX, mouseY)
         prevMouseX = mouseX
         prevMouseY = mouseY
         grid:setPoints(path.points, true)
@@ -45,6 +44,6 @@ function love.keypressed(key)
         love.event.quit()
     end
     if key == 'space' then
-        startX, startY = mouseY, mouseX
+        startX, startY = mouseX, mouseY
     end
 end
